@@ -543,8 +543,6 @@ public class Closest_pair extends JFrame {
 			NullPointerException {
 
 		try {
-			long startTime = System.currentTimeMillis();
-			
 			// choose a file
 			Closest_pair app = new Closest_pair();
 			final JFileChooser fileChooser = new JFileChooser();
@@ -556,7 +554,10 @@ public class Closest_pair extends JFrame {
 			}
 
 			File selectedFile = fileChooser.getSelectedFile();
+		
 			filtering a = new filtering(); // Initialize the filtering process
+			
+			long startTime = System.currentTimeMillis();
 
 			System.out.println("The closest distance between points is: "
 					+ a.iterate(FileToHashMap(selectedFile)));
