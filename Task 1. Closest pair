@@ -44,7 +44,7 @@ class data_processing {
 	 * Calculates the square value of input
 	 * 
 	 * @param d
-	 *            tale a value to calculate a square
+	 *            takes a value to calculate a square
 	 * @return square value
 	 */
 	public static double sqr(double d) {
