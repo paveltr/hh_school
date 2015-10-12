@@ -543,17 +543,19 @@ public class Closest_pair extends JFrame {
 			NullPointerException {
 
 		try {
+			long startTime = System.currentTimeMillis();
+			
+			// choose a file
 			Closest_pair app = new Closest_pair();
 			final JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File(System
 					.getProperty("user.home")));
 			int result = fileChooser.showOpenDialog(app);
-
+			// chech if file is chosen
 			if (result == JFileChooser.APPROVE_OPTION) {
 			}
 
 			File selectedFile = fileChooser.getSelectedFile();
-			long startTime = System.currentTimeMillis();
 			filtering a = new filtering(); // Initialize the filtering process
 
 			System.out.println("The closest distance between points is: "
@@ -571,5 +573,3 @@ public class Closest_pair extends JFrame {
 	}
 
 }
-
-
