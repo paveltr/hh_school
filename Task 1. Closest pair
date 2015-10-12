@@ -1,4 +1,4 @@
-package calculator;
+package hh_school;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +28,10 @@ import java.util.Scanner;
  * 6) Find the real closest pair distance in D
  *
  */
+
+/* 
+* As an input the .csv file is used ( two columns, one is X axis, the other is Y axis)
+*/
 
 /**
  * Data processing - class with functions to process data in each i-th iteration
@@ -492,7 +496,7 @@ class filtering extends data_processing {
 
 }
 
-public class PermutationsExample {
+public class Closest_pair {
 
 	/**
 	 * File with points
