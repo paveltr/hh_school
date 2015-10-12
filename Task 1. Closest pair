@@ -525,8 +525,11 @@ public class Closest_pair {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
+		
+		
+		try {
 		long startTime = System.currentTimeMillis();
-
+		
 		filtering a = new filtering(); // Initialize the filtering process
 
 		System.out.println("The closest distance between points is: "
@@ -535,6 +538,11 @@ public class Closest_pair {
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
 		System.out.println("Time elapsed, ms: " + elapsedTime);
+		}
+		
+		catch (FileNotFoundException e) {
+			System.out.println("There is no file to process ! ");
+		}
 
 	}
 
