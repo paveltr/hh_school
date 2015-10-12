@@ -11,6 +11,8 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  * 
@@ -496,19 +498,23 @@ class filtering extends data_processing {
 
 }
 
-public class Closest_pair {
+@SuppressWarnings("serial")
+public class Closest_pair extends JFrame {
 
 	/**
-	 * File with points
+	 * Takes a selected .csv file with points
+	 * 
+	 * @param selectedFile
+	 *            Selected file
+	 * @return hashmap
+	 * @throws FileNotFoundException
 	 */
-	public static String File_folder = "C:\\Users\\Пашка\\Documents\\123.csv";
-
-	static HashMap<Double, double[]> FileToHashMap()
+	static HashMap<Double, double[]> FileToHashMap(File selectedFile)
 			throws FileNotFoundException { // put file
 		// data to
 		// hashmap
 
-		Scanner in = new Scanner(new File(File_folder)); // read the file
+		Scanner in = new Scanner(selectedFile); // read the file
 		HashMap<Double, double[]> points = new HashMap<Double, double[]>();
 		while (in.hasNext()) {
 			String[] PointsAsString = in.nextLine().split(";");
@@ -523,27 +529,47 @@ public class Closest_pair {
 		return points;
 	}
 
-	public static void main(String[] args) throws FileNotFoundException {
+	/**
+	 * Form to select a file with points
+	 */
+	public Closest_pair() {
 
-		
-		
+		super("Please, select .csv file with points");
+		setBounds(100, 100, 200, 200); 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+	}
+
+	public static void main(String[] args) throws FileNotFoundException,
+			NullPointerException {
+
 		try {
-		long startTime = System.currentTimeMillis();
-		
-		filtering a = new filtering(); // Initialize the filtering process
+			Closest_pair app = new Closest_pair();
+			final JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(System
+					.getProperty("user.home")));
+			int result = fileChooser.showOpenDialog(app);
 
-		System.out.println("The closest distance between points is: "
-				+ a.iterate(FileToHashMap()));
+			if (result == JFileChooser.APPROVE_OPTION) {
+			}
 
-		long stopTime = System.currentTimeMillis();
-		long elapsedTime = stopTime - startTime;
-		System.out.println("Time elapsed, ms: " + elapsedTime);
+			File selectedFile = fileChooser.getSelectedFile();
+			long startTime = System.currentTimeMillis();
+			filtering a = new filtering(); // Initialize the filtering process
+
+			System.out.println("The closest distance between points is: "
+					+ a.iterate(FileToHashMap(selectedFile)));
+
+			long stopTime = System.currentTimeMillis();
+			long elapsedTime = stopTime - startTime;
+			System.out.println("Time elapsed, ms: " + elapsedTime);
 		}
-		
-		catch (FileNotFoundException e) {
+
+		catch (FileNotFoundException | NullPointerException e) {
 			System.out.println("There is no file to process ! ");
 		}
 
 	}
 
 }
+
+
