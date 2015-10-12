@@ -20,7 +20,7 @@ import java.util.Scanner;
  * Expected complexity - O(n).
  * 
  * Steps:
- * 1) Pick a random point from the initial set S and find a distance to the closest point => d(x). Save d(x) to a list D
+ * 1) Pick a random point from the initial set S and find a distance from it to its closest point => d(x). Save d(x) to a list D
  * 2) Build a mesh of size delta(x)=d(x)/3,delta(y)=d(y)/3
  * 3) Delete all points with no neighbors from S => then we get S(i)
  * 4) Go back to step 1 while we don't get S(i*+1)=empty
