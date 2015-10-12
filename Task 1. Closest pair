@@ -181,25 +181,19 @@ class data_processing {
 	HashMap<Double, double[]> refine_dataset(HashMap<Double, double[]> a,
 			double closest_distance) {
 
-		double search_mesh = (Math.sqrt(closest_distance) / 3); // mesh step -
-																// closest
-																// distance to a
-																// random point
-																// with factor 3
-																// approximation
+		// mesh step - closest distance to a closest_distance with factor 3
+		// approximation
+		double search_mesh = (Math.sqrt(closest_distance) / 3);
 
-		NavigableMap<Double, Integer> X = new TreeMap<Double, Integer>(); // map
-																			// for
-																			// X
-																			// axis
+		// map for X axis
+		NavigableMap<Double, Integer> X = new TreeMap<Double, Integer>();
 
-		double X_start = Xmin_hashmap(a) - (search_mesh); // we start with a
-															// cell for point
-															// with minimal X
-															// coordinate
-		double X_end = Xmax_hashmap(a) + (search_mesh); // we end with a cell
-														// for point with
-														// maximal X coordinate
+		// we start with a cell for a point with minimal X coordinate
+		double X_start = Xmin_hashmap(a) - (search_mesh);
+
+		// we end with a point with a maximal X coordinate
+		double X_end = Xmax_hashmap(a) + (search_mesh);
+
 		int i = 0;
 
 		while (X_start < X_end) {
@@ -209,19 +203,15 @@ class data_processing {
 
 		}
 
-		NavigableMap<Double, Integer> Y = new TreeMap<Double, Integer>(); // map
-																			// for
-																			// Y
-																			// axis
+		// map for Y axis
+		NavigableMap<Double, Integer> Y = new TreeMap<Double, Integer>();
 
-		double Y_start = Ymin_hashmap(a) - (search_mesh); // we start with a
-															// cell for point
-															// with minimal Y
-															// coordinate
+		// we start with a cell for a point with minimal Y coordinate
+		double Y_start = Ymin_hashmap(a) - (search_mesh);
 
-		double Y_end = Ymax_hashmap(a) + (search_mesh); // we start with a cell
-														// for point with
-														// minimal Y coordinate
+		// we end with a point with a maximal Y coordinate
+		double Y_end = Ymax_hashmap(a) + (search_mesh);
+
 		int j = 0;
 
 		while (Y_start < Y_end) {
@@ -262,20 +252,20 @@ class data_processing {
 				Y_floor_key = Y.floorKey(entry.getValue()[1]);
 			}
 
-			String mesh_key1 = String.valueOf(X_floor_key); // floor index by X
-															// axis
+			// floor index by X axis
+			String mesh_key1 = String.valueOf(X_floor_key);
 
-			String mesh_key2 = String.valueOf(Y_floor_key); // floor index by Y
-															// axis
+			// floor index by Y axis
+			String mesh_key2 = String.valueOf(Y_floor_key);
 
-			String mesh_key = mesh_key1 + mesh_key2 + "floor"; // floor index on
-																// the plane ( X
-																// & Y cell)
+			// floor index on the plane ( X & Y )
+			String mesh_key = mesh_key1 + mesh_key2 + "floor";
 
 			ArrayList<Double> oldkeys = new ArrayList<Double>();
-			if (mesh.get(mesh_key) != null) { // if this floor is already in the
-												// mesh hashmap => add the point
-												// to existing ones
+
+			// if this floor is already in the mesh hashmap => add the point to
+			// existing ones
+			if (mesh.get(mesh_key) != null) {
 
 				int k = 0;
 				while (k < mesh.get(mesh_key).size()) {
@@ -286,8 +276,9 @@ class data_processing {
 				mesh.put(mesh_key, oldkeys);
 
 			} else {
-				oldkeys.add(entry.getKey()); // if not, then add as a new single
-												// point on the floor
+
+				// if not, then add as a new single point on the floor
+				oldkeys.add(entry.getKey());
 				mesh.put(mesh_key, oldkeys);
 
 			}
@@ -306,8 +297,9 @@ class data_processing {
 		while (iterMESH.hasNext()) {
 			HashMap.Entry<String, ArrayList<Double>> entryMESH = iterMESH
 					.next();
-			if (entryMESH.getValue().size() == 1) { // if only one point at the
-													// floor => then delete
+
+			// if only one point at the floor => then delete
+			if (entryMESH.getValue().size() == 1) {
 
 				indexes_remove.add(entryMESH.getValue().get(0));
 
@@ -340,22 +332,14 @@ class data_processing {
 	Double closest_distance_to_random_point(HashMap<Double, double[]> a)
 			throws FileNotFoundException {
 
-		HashMap<Double, Double> sq_distances = new HashMap<Double, Double>(); // here
-																				// we
-																				// save
-																				// square
-																				// distances
-																				// to
-																				// the
-																				// random
-																				// point
+		// here we save square distances to the random point
+		HashMap<Double, Double> sq_distances = new HashMap<Double, Double>();
+
 		double random_point_key = get_random_point(a); // picking a random point
-		double coord_random_point_X = a.get(random_point_key)[0]; // X random
-																	// point
-																	// coordinate
-		double coord_random_point_Y = a.get(random_point_key)[1]; // Y random
-																	// point
-																	// coordinate
+		// X random poit
+		double coord_random_point_X = a.get(random_point_key)[0];
+		// Y random point
+		double coord_random_point_Y = a.get(random_point_key)[1];
 		Iterator<HashMap.Entry<Double, double[]>> iter = a.entrySet()
 				.iterator();
 		while (iter.hasNext()) { // iterating hashmap to find distances to the
@@ -369,15 +353,9 @@ class data_processing {
 		}
 
 		Entry<Double, Double> min = null;
-		for (Entry<Double, Double> entry : sq_distances.entrySet()) { // iterating
-																		// hashmap
-																		// with
-																		// distances
-																		// to
-																		// find
-																		// the
-																		// closest
-																		// one
+
+		// iterating hashmap with distances to find the closest pair
+		for (Entry<Double, Double> entry : sq_distances.entrySet()) {
 			if (min == null || min.getValue() > entry.getValue()) {
 				min = entry;
 			}
@@ -399,20 +377,8 @@ class data_processing {
 
 		Iterator<HashMap.Entry<Double, double[]>> iter = a.entrySet()
 				.iterator();
-
-		HashMap<Double, Double> distances = new HashMap<Double, Double>(); // here
-																			// we
-																			// will
-																			// save
-																			// closest
-																			// distance
-																			// for
-																			// each
-																			// point
-																			// in
-																			// the
-																			// input
-																			// hashmap
+		// here we will save the closest distance for each point
+		HashMap<Double, Double> distances = new HashMap<Double, Double>();
 
 		while (iter.hasNext()) {
 
@@ -424,28 +390,24 @@ class data_processing {
 			while (iter2.hasNext()) {
 
 				HashMap.Entry<Double, double[]> entry2 = iter2.next();
-				if (entry.getKey() != entry2.getKey()) { // condition so that we
-															// will not
-															// calculate the
-															// distance of point
-															// to itself
+
+				// condition so that we will not calculate the distance of point
+				// to itself
+				if (entry.getKey() != entry2.getKey()) {
+
 					double distance = sqr_distance(entry.getValue()[0],
 							entry2.getValue()[0], entry.getValue()[1],
 							entry2.getValue()[1]);
 
-					closest_neighbors.add(distance); // distances to each point
-														// in the input dataset
-														// for currently
-														// iterating point
-
+					// distances to each point in the input dataset in the input
+					// dataset for currently iterating point
+					closest_neighbors.add(distance);
 					double min = closest_neighbors.get(0);
 					int i = 0;
 
-					while (i < closest_neighbors.size()) { // looking for the
-															// closest pair for
-															// cuurently
-															// iterating point
-															// in the hashmap
+					// looking for the closest pair for currently iterating
+					// point in the hashmap
+					while (i < closest_neighbors.size()) {
 
 						double closest = closest_neighbors.get(i);
 
@@ -495,32 +457,30 @@ class filtering extends data_processing {
 
 		double closest_distance = 0; // a pre-set for closest pair
 
-		List<Double> distances = new ArrayList<Double>(); // here we will be
-															// saving closest
-															// pair for random
-															// points and for
-															// S(i*+1) set
-		
+		// here we will be saving pair for random points and for S(i*+1) set
+		List<Double> distances = new ArrayList<Double>();
+
 		// here we will save S(i*+1) set
-		HashMap<Double, double[]> b = new HashMap<Double, double[]>(); 
+		HashMap<Double, double[]> b = new HashMap<Double, double[]>();
 		while (!a.isEmpty()) {
 
 			HashMap<Double, double[]> c = new HashMap<Double, double[]>(a);
 			b = c;
 			// Step 1: closest pair for a randomly chosen point
 			closest_distance = closest_distance_to_random_point(a);
-			//Steps 2-3: build a mesh flooring and remove single points
+			// Steps 2-3: build a mesh flooring and remove single points
 			a = refine_dataset(a, closest_distance);
-			//Step 4: go to step 1
+			// Step 4: go to step 1
 			distances.add(closest_distance);
 
 		}
-		// Step 5: S(i*+1_) = empty => real closest pair for S(i*+1) set 
+		// Step 5: S(i*+1_) = empty => real closest pair for S(i*+1) set
 		distances.add(real_closest_distance(b));
-		
+
 		int i = 0;
 		double min_dist = 0;
-		// Step 6: iterating within a list with saved distances to find closest pair
+		// Step 6: iterating within a list with saved distances to find closest
+		// pair
 		while (i < distances.size()) {
 			if (min_dist > distances.get(i) || min_dist == 0) {
 				min_dist = distances.get(i);
