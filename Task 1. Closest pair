@@ -461,7 +461,7 @@ class filtering extends data_processing {
 
 	Double iterate(HashMap<Double, double[]> a) throws FileNotFoundException {
 
-		double closest_distance = 0; // a pre-set for closest pair
+		double closest_distance = 0; // a pre-set for the closest pair to randomly chosen one
 
 		// here we will be saving pair for random points and for S(i*+1) set
 		List<Double> distances = new ArrayList<Double>();
