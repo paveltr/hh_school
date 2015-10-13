@@ -542,36 +542,33 @@ public class Closest_pair extends JFrame {
 	public static void main(String[] args) throws FileNotFoundException,
 			NullPointerException {
 
-		try {
-			// choose a file
-			Closest_pair app = new Closest_pair();
-			final JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setCurrentDirectory(new File(System
-					.getProperty("user.home")));
-			int result = fileChooser.showOpenDialog(app);
-			// chech if file is chosen
-			if (result == JFileChooser.APPROVE_OPTION) {
-			}
+		long startTime = System.currentTimeMillis();
 
-			File selectedFile = fileChooser.getSelectedFile();
-		
-			filtering a = new filtering(); // Initialize the filtering process
-			
-			long startTime = System.currentTimeMillis();
-
-			System.out.println("The closest distance between points is: "
-					+ a.iterate(FileToHashMap(selectedFile)));
-
-			long stopTime = System.currentTimeMillis();
-			long elapsedTime = stopTime - startTime;
-			System.out.println("Time elapsed, ms: " + elapsedTime);
+		// choose a file
+		Closest_pair app = new Closest_pair();
+		final JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System
+				.getProperty("user.home")));
+		int result = fileChooser.showOpenDialog(app);
+		// chech if file is chosen
+		if (result == JFileChooser.APPROVE_OPTION) {
 		}
 
-		catch (FileNotFoundException | NullPointerException e) {
-			System.out.println("There is no file to process ! Run the program again! ");
+		File selectedFile = fileChooser.getSelectedFile();
+		filtering a = new filtering(); // Initialize the filtering process
+
+		try {
+			System.out.println("The closest distance between points is: "
+					+ a.iterate(FileToHashMap(selectedFile)));
+		} catch (FileNotFoundException | NullPointerException e) {
+			System.out.println("There is no file to process ! ");
 			System.exit(0);
 		}
 
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println("Time elapsed, ms: " + elapsedTime);
+		System.exit(0);
 	}
 
 }
