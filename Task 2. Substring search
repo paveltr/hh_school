@@ -1,0 +1,215 @@
+package exercises;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+/**
+ * 
+ * @author Pavel Troshenkov | Substring search by Knuth-Morris-Pratt algorithm
+ * 
+ *         Expected complexity - O(n + m), where n - is a number of integers to
+ *         be analyzed, m - the length of a pattern to find
+ *
+ *         Algrorithm works in two stages.
+ * 
+ *         Stage 1. We are determining the prefix function for the string S =>
+ *         p(S,i), so that we are searching for the max length of prefix that is
+ *         a suffix at the same time.
+ * 
+ *         Stage 2. Go through the string comparing each element with the
+ *         pattern while no match. Using prefix allows to optimize the shift in
+ *         the pattern if no match, not starting a comparison from the start of
+ *         pattern
+ */
+
+class prefix_function {
+
+	/**
+	 * Prefix-function
+	 * 
+	 * @param pattern
+	 *            Input request
+	 * @return an array with indexes when suffix equals prefix of the pattern
+	 *         string
+	 */
+
+	int[] get_prefix(String pattern) {
+
+		// an array where we will keep indexes of elements for which S(1,i) =
+		// S(i,j)
+		int[] prefix = new int[pattern.length()];
+		for (int i = 1; i < pattern.length(); i++) {
+
+			int prefix_current = prefix[i - 1];
+
+			// if not a match, then we keep 0 as a zero match
+			while (prefix_current > 0
+					&& pattern.charAt(prefix_current) != pattern.charAt(i)) {
+				prefix_current = 0;
+			}
+			// if a match, increase the prefix value by i
+			if (pattern.charAt(prefix_current) == pattern.charAt(i)) {
+
+				prefix_current++;
+
+			}
+
+			prefix[i] = prefix_current;
+
+		}
+
+		return prefix;
+
+	}
+
+}
+
+class knuth_search extends prefix_function {
+	/**
+	 * Here we get the index of the first occurrence of the pattern
+	 * 
+	 * @param pattern
+	 *            substring we are searching for
+	 * @param s
+	 *            the string to search in
+	 */
+
+	void get_index(String pattern, String s) {
+
+		// we start from the string 0-th element
+		int index = -1;
+
+		// here is the prefix function array
+		int[] prefix = get_prefix(pattern);
+		int i = 0;
+		int k = 0;
+		while (i < s.length()) {
+			// if not start of the pattern, but no match => then go back in
+			// prefix indexing
+			if (k > 0 && (pattern.charAt(k) != s.charAt(i))) {
+				k = prefix[k - 1];
+
+			}
+			// if a match, then increase prefix index
+			if (pattern.charAt(k) == s.charAt(i)) {
+				k++;
+
+			}
+			// when reached end of the prefix => finished
+			if (k == pattern.length()) {
+
+				index = i - pattern.length() + 1 + 1;
+				break;
+			}
+
+			i++;
+
+		}
+
+		if (index > -1) {
+			System.out.println("The index of the first occurence of pattern '"
+					+ pattern + "' " + " is " + index);
+		} else {
+			System.out.println("No such patterns have been found. Try again");
+		}
+
+	}
+
+}
+
+@SuppressWarnings("serial")
+public class Substring_search extends JFrame {
+
+	/**
+	 * Takes a file with infinite series of integers and return the string
+	 * 
+	 * @param f
+	 *            Path to the file with input data
+	 * @return String with integers
+	 * @throws IOException
+	 */
+
+	public static String file_to_string(Path f) throws IOException {
+
+		String input_string = new String(Files.readAllBytes(f));
+		return input_string;
+	}
+
+	/**
+	 * Form with file chooser
+	 */
+	public Substring_search() {
+
+		super("Please, select file with integers series");
+		setBounds(100, 100, 200, 200);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	}
+
+	@SuppressWarnings("resource")
+	public static void main(String[] args) throws NullPointerException,
+			IOException {
+
+		try {
+
+			// choose a file
+			Substring_search app = new Substring_search();
+			final JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File(System
+					.getProperty("user.home")));
+			int result = fileChooser.showOpenDialog(app);
+
+			// check if any file is chosen
+			if (result == JFileChooser.APPROVE_OPTION) {
+			}
+			String selectedFile = fileChooser.getSelectedFile()
+					.getAbsolutePath();
+			Path path = Paths.get(selectedFile);
+
+			Scanner keyboard = new Scanner(System.in);
+
+			int pattern_integers;
+			// check if the input pattern for substring search contains only
+			// positive integers
+			do {
+				System.out
+						.println("Enter the pattern for search, only positive integers, no characters");
+				while (!keyboard.hasNextInt()) {
+					System.out
+							.println("That's not an integer! If you want to exit, type 'exit' . Or try again");
+					if (keyboard.nextLine() == "exit") {
+
+					} else {
+						keyboard.next();
+					}
+
+				}
+				pattern_integers = keyboard.nextInt();
+			} while (pattern_integers <= 0);
+			String pattern = Integer.toString(pattern_integers);
+			// start our search
+			knuth_search search = new knuth_search();
+			long startTime = System.currentTimeMillis();
+			search.get_index(pattern, file_to_string(path));
+
+			long stopTime = System.currentTimeMillis();
+			long elapsedTime = stopTime - startTime;
+			System.out.println("Time elapsed, ms: " + elapsedTime);
+
+		} catch (NullPointerException | IOException
+				| ArrayIndexOutOfBoundsException | NoSuchElementException e) {
+			System.out.println("There is no file chosen! Run the program again");
+			System.exit(0);
+		}
+
+	}
+
+}
