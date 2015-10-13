@@ -30,11 +30,15 @@ import javax.swing.WindowConstants;
  *         the pattern if no match, not starting a comparison from the start of
  *         pattern
  */
-
+ 
+ /**	   As an input the program takes a .txt file with a series of integers
+ *
+ */
+ 
 class prefix_function {
 
 	/**
-	 * Prefix-function
+	 * Prefix-function seeks for the max prefix length that equals suffix
 	 * 
 	 * @param pattern
 	 *            Input request
