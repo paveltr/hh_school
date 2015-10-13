@@ -568,7 +568,8 @@ public class Closest_pair extends JFrame {
 		}
 
 		catch (FileNotFoundException | NullPointerException e) {
-			System.out.println("There is no file to process ! ");
+			System.out.println("There is no file to process ! Run the program again! ");
+			System.exit(0);
 		}
 
 	}
