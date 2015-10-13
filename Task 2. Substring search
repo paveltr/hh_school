@@ -25,20 +25,16 @@ import javax.swing.WindowConstants;
  *         p(S,i), so that we are searching for the max length of prefix that is
  *         a suffix at the same time.
  * 
- *         Stage 2. Go through the string comparing each element with the
+ *         Stage 2. Go through the string and compare each element with the
  *         pattern while no match. Using prefix allows to optimize the shift in
  *         the pattern if no match, not starting a comparison from the start of
  *         pattern
  */
- 
- /**	   As an input the program takes a .txt file with a series of integers
- *
- */
- 
+
 class prefix_function {
 
 	/**
-	 * Prefix-function seeks for the max prefix length that equals suffix
+	 * Prefix-function
 	 * 
 	 * @param pattern
 	 *            Input request
@@ -143,9 +139,16 @@ public class Substring_search extends JFrame {
 	 */
 
 	public static String file_to_string(Path f) throws IOException {
+		try {
+			String input_string = new String(Files.readAllBytes(f));
+			return input_string;
+		} catch (IOException e) {
+			System.out
+					.println("There is no file chosen! Run the program again");
+			System.exit(0);
+			return null;
+		}
 
-		String input_string = new String(Files.readAllBytes(f));
-		return input_string;
 	}
 
 	/**
@@ -162,58 +165,66 @@ public class Substring_search extends JFrame {
 	public static void main(String[] args) throws NullPointerException,
 			IOException {
 
-		try {
+		// choose a file
+		Substring_search app = new Substring_search();
+		final JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System
+				.getProperty("user.home")));
+		int result = fileChooser.showOpenDialog(app);
 
-			// choose a file
-			Substring_search app = new Substring_search();
-			final JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setCurrentDirectory(new File(System
-					.getProperty("user.home")));
-			int result = fileChooser.showOpenDialog(app);
+		// check if any file is chosen
+		Path path = null;
+		if (result == JFileChooser.APPROVE_OPTION) {
 
-			// check if any file is chosen
-			if (result == JFileChooser.APPROVE_OPTION) {
-			}
 			String selectedFile = fileChooser.getSelectedFile()
 					.getAbsolutePath();
-			Path path = Paths.get(selectedFile);
+			path = Paths.get(selectedFile);
 
-			Scanner keyboard = new Scanner(System.in);
-
-			int pattern_integers;
-			// check if the input pattern for substring search contains only
-			// positive integers
-			do {
-				System.out
-						.println("Enter the pattern for search, only positive integers, no characters");
-				while (!keyboard.hasNextInt()) {
-					System.out
-							.println("That's not an integer! If you want to exit, type 'exit' . Or try again");
-					if (keyboard.nextLine() == "exit") {
-
-					} else {
-						keyboard.next();
-					}
-
-				}
-				pattern_integers = keyboard.nextInt();
-			} while (pattern_integers <= 0);
-			String pattern = Integer.toString(pattern_integers);
-			// start our search
-			knuth_search search = new knuth_search();
-			long startTime = System.currentTimeMillis();
-			search.get_index(pattern, file_to_string(path));
-
-			long stopTime = System.currentTimeMillis();
-			long elapsedTime = stopTime - startTime;
-			System.out.println("Time elapsed, ms: " + elapsedTime);
-
-		} catch (NullPointerException | IOException
-				| ArrayIndexOutOfBoundsException | NoSuchElementException e) {
-			System.out.println("There is no file chosen! Run the program again");
+		} else {
+			System.out.println("You didnt choose any file. See you next time!");
 			System.exit(0);
 		}
 
+		Scanner keyboard = new Scanner(System.in);
+
+		int pattern_integers;
+
+		// check if the input pattern for substring search contains only
+		// positive integers
+		do {
+			System.out
+					.println("Enter the pattern for search, only positive integers, no characters");
+			while (!keyboard.hasNextInt()) {
+				System.out
+						.println("That's not an integer! If you want to exit, type 'exit' . Or try again");
+				if (keyboard.nextLine() == "exit") {
+
+				} else {
+					keyboard.next();
+				}
+
+			}
+			pattern_integers = keyboard.nextInt();
+		} while (pattern_integers <= 0);
+		String pattern = Integer.toString(pattern_integers);
+
+		// start our search
+		knuth_search search = new knuth_search();
+		long startTime = System.currentTimeMillis();
+		try {
+
+			search.get_index(pattern, file_to_string(path));
+
+		} catch (NullPointerException | IOException
+				| ArrayIndexOutOfBoundsException | NoSuchElementException e) {
+			System.out.println("Mistake happened! Run the program again");
+			System.exit(0);
+		}
+
+		long stopTime = System.currentTimeMillis();
+		long elapsedTime = stopTime - startTime;
+		System.out.println("Time elapsed, ms: " + elapsedTime);
+		System.exit(0);
 	}
 
 }
