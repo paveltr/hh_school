@@ -222,7 +222,7 @@ public class Substring_search extends JFrame {
 
 		long stopTime = System.currentTimeMillis();
 		long elapsedTime = stopTime - startTime;
-		System.out.println("Time elapsed, ms: " + elapsedTime);
+		System.out.println("Time elapsed (algorithm), ms: " + elapsedTime);
 		System.exit(0);
 	}
 
