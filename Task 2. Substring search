@@ -95,7 +95,7 @@ class knuth_search extends prefix_function {
 		while (i < s.length()) {
 			// if not start of the pattern, but no match => then go back in
 			// prefix indexing
-			if (k > 0 && (pattern.charAt(k) != s.charAt(i))) {
+			while (k > 0 && (pattern.charAt(k) != s.charAt(i))) {
 				k = prefix[k - 1];
 
 			}
