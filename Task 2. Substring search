@@ -14,7 +14,7 @@ import javax.swing.WindowConstants;
 
 /**
  * 
- * @author Pavel Troshenkov | Substring search by Knuth-Morris-Pratt algorithm
+ * @author Pavel Tro | Substring search by Knuth-Morris-Pratt algorithm
  * 
  *         Expected complexity - O(n + m), where n - is a number of integers to
  *         be analyzed, m - the length of a pattern to find
