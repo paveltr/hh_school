@@ -550,9 +550,6 @@ public class Closest_pair extends JFrame {
 		fileChooser.setCurrentDirectory(new File(System
 				.getProperty("user.home")));
 		int result = fileChooser.showOpenDialog(app);
-		// chech if file is chosen
-		if (result == JFileChooser.APPROVE_OPTION) {
-		}
 
 		File selectedFile = fileChooser.getSelectedFile();
 		filtering a = new filtering(); // Initialize the filtering process
