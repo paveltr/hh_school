@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 
 /**
  * 
- * @author Pavel Troshenkov | Closest pair
+ * @author Pavel Tro | Closest pair
  * 
  * Algorithm is based on "A Simple Randomized Sieve algorithm for the closest pair problem" (S.Khuller, https://www.cs.umd.edu/~samir/grant/cp.pdf )
  * Expected complexity - O(n).
