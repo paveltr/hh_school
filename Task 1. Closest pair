@@ -548,15 +548,25 @@ public class Closest_pair extends JFrame {
 		fileChooser.setCurrentDirectory(new File(System
 				.getProperty("user.home")));
 		int result = fileChooser.showOpenDialog(app);
+		
+		if (result == JFileChooser.APPROVE_OPTION) {
 
-		File selectedFile = fileChooser.getSelectedFile();
+			String selectedFile = fileChooser.getSelectedFile()
+					.getAbsolutePath();
+			path = Paths.get(selectedFile);
+
+		} else {
+			System.out.println("You didnt choose any file. See you next time!");
+			System.exit(0);
+		}
+
 		filtering a = new filtering(); // Initialize the filtering process
 
 		try {
 			long startTime = System.currentTimeMillis();
 			System.out.println("The closest distance between points is: "
 					+ a.iterate(FileToHashMap(selectedFile)));
-		} catch (FileNotFoundException | NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.out.println("There is no file to process ! ");
 			System.exit(0);
 		}
